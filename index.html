@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SupeRR Selector S2 | Pressure Performance Dashboard</title>
+<style>
+:root{--bg:#071321;--panel:#102238;--panel2:#142b43;--ink:#f3f7fb;--muted:#a9bbcb;--lime:#c8f169;--cyan:#55d6e8;--gold:#ffc857;--coral:#ff806b;--line:#29435d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#17334d 0,#071321 42%);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:28px 22px 50px}.eyebrow{color:var(--lime);font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:11px}
+header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:26px}.tag{border:1px solid #49637b;border-radius:999px;padding:7px 12px;color:var(--muted);font-size:12px;white-space:nowrap}
+h1{font-size:clamp(32px,5vw,58px);line-height:.98;letter-spacing:-.045em;margin:10px 0 12px;max-width:720px}h1 span{color:var(--lime)}.sub{color:var(--muted);max-width:720px;margin:0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0}.metric,.panel{background:linear-gradient(145deg,rgba(20,43,67,.96),rgba(12,30,49,.96));border:1px solid var(--line);border-radius:17px}.metric{padding:17px}.metric strong{display:block;font-size:26px;letter-spacing:-.03em}.metric small{color:var(--muted);font-size:12px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 14px}.tab{border:1px solid var(--line);background:#102238;color:var(--muted);padding:10px 15px;border-radius:999px;cursor:pointer;font-weight:700}.tab.active{background:var(--lime);color:#122033;border-color:var(--lime)}
+.panel{padding:20px;margin:14px 0}.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}h2{font-size:21px;margin:0;letter-spacing:-.02em}h3{font-size:15px;margin:0 0 6px}.note{color:var(--muted);font-size:12px}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}input,select{background:#081827;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font:inherit}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:640px}th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.09em;padding:10px;border-bottom:1px solid var(--line)}td{padding:12px 10px;border-bottom:1px solid rgba(41,67,93,.65)}tr:last-child td{border-bottom:0}.rank{color:var(--lime);font-weight:900;width:40px}.player{font-weight:750}.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:11px;background:#253d55;color:#d7e6f2}.warn{color:var(--gold)}.bad{color:var(--coral)}
+.chartgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.barrow{display:grid;grid-template-columns:120px 1fr 48px;gap:10px;align-items:center;margin:12px 0;font-size:12px}.barname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#dce8f1}.track{height:10px;border-radius:99px;background:#233a50;overflow:hidden}.bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--lime))}.bar.neg{background:linear-gradient(90deg,var(--coral),#ffb18c)}.score{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.callout{border-left:3px solid var(--gold);padding:12px 14px;background:#1b2c3d;border-radius:0 10px 10px 0;color:#dbe7f0;font-size:13px;margin-top:12px}
+footer{color:var(--muted);font-size:11px;margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:760px){.metrics{grid-template-columns:repeat(2,1fr)}.chartgrid{grid-template-columns:1fr}header{display:block}.tag{display:inline-block;margin-top:16px}.barrow{grid-template-columns:100px 1fr 42px}}
+</style>
+</head>
+<body><main class="wrap">
+<header><div><div class="eyebrow">SupeRR Selector · Season 2</div><h1>WHO DELIVERS <span>WHEN IT MATTERS?</span></h1><p class="sub">A pressure-performance view of our selected players. Explore the submitted multi-factor rankings and the pressure-score evidence used as a cross-check.</p></div><div class="tag">METHODOLOGY DASHBOARD · 2022–2026</div></header>
+<section class="metrics">
+<div class="metric"><strong>738</strong><small>Matches in deck dataset</small></div>
+<div class="metric"><strong>175,707</strong><small>Deliveries in deck dataset</small></div>
+<div class="metric"><strong>IPL + T20I</strong><small>Formats covered</small></div>
+<div class="metric"><strong>Top 10 + 10</strong><small>Selected batters and bowlers</small></div>
+</section>
+<div class="tabs"><button class="tab active" data-view="batters">Batters</button><button class="tab" data-view="bowlers">Bowlers</button><button class="tab" data-view="evidence">Pressure evidence</button><button class="tab" data-view="method">How to read this</button></div>
+<section id="batters" class="view">
+<div class="panel"><div class="panel-head"><div><h2>Selected batters</h2><div class="note">Order preserved from the submitted shortlist</div></div><div class="tools"><input id="bsearch" placeholder="Search batter…"></div></div><div class="table-wrap"><table><thead><tr><th>Rank</th><th>Player</th><th>Balls faced</th><th>Strike rate</th><th>Pressure score</th><th>Data note</th></tr></thead><tbody id="btable"></tbody></table></div></div>
+</section>
+<section id="bowlers" class="view" hidden>
+<div class="panel"><div class="panel-head"><div><h2>Selected bowlers</h2><div class="note">Order preserved from the submitted shortlist</div></div><div class="tools"><input id="wsearch" placeholder="Search bowler…"></div></div><div class="table-wrap"><table><thead><tr><th>Rank</th><th>Player</th><th>Wickets</th><th>Economy</th><th>Pressure score</th><th>Data note</th></tr></thead><tbody id="wtable"></tbody></table></div></div>
+</section>
+<section id="evidence" class="view" hidden>
+<div class="panel"><div class="panel-head"><div><h2>Pressure-score evidence</h2><div class="note">Shrunk win-probability-added score per 100 pressure balls, as labelled in the presentation</div></div></div>
+<div class="chartgrid"><div><h3>Batters · pressure score</h3><div id="bchart"></div></div><div><h3>Bowlers · pressure score</h3><div id="wchart"></div></div></div>
+<div class="callout">These scores are supporting evidence, not the formula that generated the final player order. The shortlist also reflects broader judgement such as overall record, role, wickets and team impact.</div></div>
+</section>
+<section id="method" class="view" hidden>
+<div class="panel"><h2>How to interpret the dashboard</h2><p class="sub" style="margin-top:10px">The final order is a multi-factor selection judgement. Pressure-performance data is shown as a cross-check; it should not be read as a pure statistical ranking.</p>
+<div class="chartgrid" style="margin-top:18px"><div><h3>Sample-size caution</h3><p class="note">Players flagged “below 150-ball minimum” have limited pressure-ball samples for stable comparison. Treat their pressure scores cautiously.</p></div><div><h3>Coverage caution</h3><p class="note">Nathan Bracken is not present in the dataset used for this dashboard. Players with no pressure data are not plotted in the evidence charts.</p></div><div><h3>Comparability</h3><p class="note">IPL and T20I contexts differ. The deck also notes that opposition and batting-position adjustments were not included.</p></div><div><h3>Reliability</h3><p class="note">The presentation reports modest split-half rank correlations (batters 0.17; bowlers 0.09), indicating pressure form is noisy and only modestly repeatable.</p></div></div>
+<div class="callout">Use the tables to see the chosen shortlist; use the pressure tab to inspect the available pressure-score signal; use the notes to understand where the evidence is limited.</div></div>
+</section>
+<footer>Source: SupeRR Selector Methodology presentation (v5). Values are reproduced from the deck; no additional player statistics have been inferred. This is an interactive companion dashboard, not a live data feed.</footer>
+</main>
+<script>
+const batters=[
+[1,"Rohit Sharma","1,615","144",0.12,""],
+[2,"Shikhar Dhawan","754","130",0.02,""],
+[3,"Virat Kohli","2,455","145",0.24,""],
+[4,"Faf du Plessis","1,273","144",-0.07,"Model rank #60 of 85"],
+[5,"MS Dhoni","460","150",0.52,"Below 150-ball minimum"],
+[6,"Dinesh Karthik","637","167",0.24,"Below 150-ball minimum"],
+[7,"Wriddhiman Saha","660","125",-0.13,"Model rank #66 of 85"],
+[8,"Abdul Samad","422","150",-0.25,"Below 150-ball minimum"],
+[9,"Ravindra Jadeja","956","135",-0.12,"Model rank #65 of 85"],
+[10,"Rashid Khan","506","156",0.79,"Below 150-ball minimum"]];
+const bowlers=[
+[1,"Rashid Khan","153","7.6",0.47,""],
+[2,"Ravindra Jadeja","58","8.0",0.02,""],
+[3,"Dwayne Bravo","16","8.7",-0.01,""],
+[4,"Amit Mishra","8","8.1",0.15,"32 pressure balls · below minimum"],
+[5,"Piyush Chawla","35","8.4",-0.08,"56 pressure balls · below minimum"],
+[6,"Ishant Sharma","24","9.7",0.25,"149 pressure balls · below minimum"],
+[7,"Nathan Bracken","—","—",null,"Not in dataset"],
+[8,"Pradeep Sangwan","3","7.3",null,"No pressure data"],
+[9,"Basil Hameed","7","8.5",0.21,"37 pressure balls · below minimum"],
+[10,"Bashir Ahmad","0","12.7",null,"No pressure data"]];
+function renderTable(data,id,searchId,kind){const q=document.getElementById(searchId).value.toLowerCase();document.getElementById(id).innerHTML=data.filter(r=>r[1].toLowerCase().includes(q)).map(r=>{let score=r[4]===null?"—":r[4].toFixed(2);let note=r[5]?`<span class="pill ${r[5].includes('Not in')||r[5].includes('No pressure')?'bad':'warn'}">${r[5]}</span>`:"—";return `<tr><td class="rank">${r[0]}</td><td class="player">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${score}</td><td>${note}</td></tr>`}).join("")}
+function chart(data,id){let vals=data.filter(r=>r[4]!==null);let max=Math.max(...vals.map(r=>Math.abs(r[4])),.01);document.getElementById(id).innerHTML=vals.map(r=>`<div class="barrow"><div class="barname">${r[1]}</div><div class="track"><div class="bar ${r[4]<0?'neg':''}" style="width:${Math.abs(r[4])/max*100}%"></div></div><div class="score">${r[4].toFixed(2)}</div></div>`).join("")}
+document.getElementById('bsearch').addEventListener('input',()=>renderTable(batters,'btable','bsearch'));
+document.getElementById('wsearch').addEventListener('input',()=>renderTable(bowlers,'wtable','wsearch'));
+renderTable(batters,'btable','bsearch');renderTable(bowlers,'wtable','wsearch');chart(batters,'bchart');chart(bowlers,'wchart');
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===btn));document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==btn.dataset.view)}));
+</script></body></html>
